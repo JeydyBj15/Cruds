@@ -30,6 +30,16 @@ export class CRUD{
         let data = sessionStorage.getItem(key);
         return JSON.parse(data);
     }
+
+    #existElementWhithId(id){
+        return this.#data[id] === undefined ? false : true;
+    }
+
+    #checkThatElementExistsWthithId(id){
+        if(!this.#existElementWhithId(id))
+         throw new Error("This Element not exists");
+    }
+
     create(data){
         this.#data.push(data);
         this.#save();
@@ -37,6 +47,7 @@ export class CRUD{
     }
 
 	read(id){
+        this.#checkThatElementExistsWthithId(id);
         return this.#data[id];
     }
 
@@ -45,14 +56,17 @@ export class CRUD{
     }
 
 	update(id, data){
+        this.#checkThatElementExistsWthithId(id);
         this.#data[id] = data;
         this.#save();
         return true;
     }
 
 	delete(id){
+        this.#checkThatElementExistsWthithId(id);
         this.#data.splice(id, 1);
         this.#save();
         return true;
     }
+
 }
